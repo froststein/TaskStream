@@ -16,9 +16,12 @@ public class Main {
         ArrayList<Task> tasksData = dm.loadData();
 
         System.out.println("Printing deadlines");
-        printDeadlines(tasksData);
+        //printDeadlines(tasksData);
+        //System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
 
-        System.out.println("Total number of deadlines: " + countDeadlines(tasksData));
+        printDeadlineWithStream((tasksData));
+        System.out.println("Total number of deadlines (using streams): " +
+                countDeadlineWithStreams(tasksData));
 
     }
 
@@ -32,10 +35,24 @@ public class Main {
         return count;
     }
 
+    private static int countDeadlineWithStreams(ArrayList<Task> tasks) {
+        int count = 0;
+        count = (int) tasks.stream()
+                .filter((t) -> t instanceof Deadline)
+                .count();
+        return count;
+    }
+
     public static void printData(ArrayList<Task> tasksData) {
         for (Task t : tasksData) {
             System.out.println(t);
         }
+    }
+
+    public static void printDataWithStreams(ArrayList<Task> tasks) {
+        System.out.println("\nPrint task using streams");
+        tasks.stream()      // convert task data to a stream
+                .forEach(System.out::println); // terminal operation
     }
 
     public static void printDeadlines(ArrayList<Task> tasksData) {
@@ -44,5 +61,12 @@ public class Main {
                 System.out.println(t);
             }
         }
+    }
+
+    public static void printDeadlineWithStream(ArrayList<Task> tasks) {
+        System.out.println("\nPrint Deadline using stream");
+        tasks.stream()
+                .filter((t) -> t instanceof Deadline)
+                .forEach(System.out::println);
     }
 }
